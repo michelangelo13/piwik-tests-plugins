@@ -8,8 +8,8 @@ php:
 
 # Separate different test suites
 env:
-matrix:
-- TEST_SUITE=CoreTests
+  matrix:
+    - TEST_SUITE=CoreTests
 
 # Run PHP 5.4 for aa tests to generate
 # code coverage.
