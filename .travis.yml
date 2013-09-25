@@ -18,10 +18,11 @@ script: ./travis.sh
 
 install:
 - git clone https://github.com/piwik/piwik.git piwik
+- cd piwik
 - git checkout 2.0-a6
 - composer install
-- git clone https://github.com/piwik-livetab-plugin.git piwik/plugins/LiveTab
-- cd piwik/plugins/LiveTab/
+- git clone https://github.com/piwik-livetab-plugin.git plugins/LiveTab
+- cd plugins/LiveTab/
 - git checkout v1.0.2
 - cd ../../../
 
