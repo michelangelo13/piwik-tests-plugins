@@ -16,14 +16,17 @@ env:
 
 script: ./travis.sh
 
-before_script:
-- git clone git@github.com:piwik/piwik.git piwik
+install:
+- git clone https://github.com/piwik/piwik.git piwik
 - git checkout 2.0-a6
 - composer install
-- git clone git@github.com:tsteur/piwik-livetab-plugin piwik/plugins/LiveTab
+- git clone https://github.com/piwik-livetab-plugin.git piwik/plugins/LiveTab
 - cd piwik/plugins/LiveTab/
 - git checkout v1.0.2
-- cd ../..
+- cd ../../../
+
+before_script:
+- cd piwik
 - uname -a
 - date
 - mysql -e 'create database piwik_test;'
