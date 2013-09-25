@@ -1,2 +1,2 @@
-piwik-tests-plugins
+Piwik Tests Plugins
 ===================
