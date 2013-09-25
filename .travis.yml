@@ -1,45 +1,42 @@
 language: php
 
 # We want to test against PHP 5.3/5.4/5.5
+# TODO activate plugin
 php:
 - 5.5
 - 5.4
 - 5.3
 
-# Separate different test suites
 env:
   matrix:
     - TEST_SUITE=CoreTests
 
-# Run PHP 5.4 for aa tests to generate
-# code coverage.
-
 script: ./travis.sh
 
 install:
-- git clone https://github.com/piwik/piwik.git piwik
-- cd piwik
-- git checkout 2.0-a6
-- composer install
-- git clone https://github.com/tsteur/piwik-livetab-plugin.git plugins/LiveTab
-- cd plugins/LiveTab/
-- git checkout v1.0.2
-- cd ../../../
+  - git clone https://github.com/piwik/piwik.git piwik
+  - cd piwik
+  - git checkout 2.0-a6
+  - composer install
+  - git clone https://github.com/tsteur/piwik-livetab-plugin.git plugins/LiveTab
+  - cd plugins/LiveTab/
+  - git checkout v1.0.2
+  - cd ../../../
 
 before_script:
-- cd piwik
-- uname -a
-- date
-- mysql -e 'create database piwik_test;'
-- ./tests/travis/prepare.sh
-- ./tests/travis/setup_webserver.sh
-- cd tests/PHPUnit
+  - cd piwik
+  - uname -a
+  - date
+  - mysql -e 'create database piwik_test;'
+  - ./tests/travis/prepare.sh
+  - ./tests/travis/setup_webserver.sh
+  - cd tests/PHPUnit
 
 after_script:
-- cat /var/log/nginx/error.log
-- cat $TRAVIS_BUILD_DIR/../piwik/tmp/php-fpm.log
-- cat $TRAVIS_BUILD_DIR/../piwik/tmp/logs/logger_message.htm
+  - cat /var/log/nginx/error.log
+  - cat $TRAVIS_BUILD_DIR/../piwik/tmp/php-fpm.log
+  - cat $TRAVIS_BUILD_DIR/../piwik/tmp/logs/logger_message.htm
 
 notifications:
-email:
-- marketplace@piwik.org
+  email:
+    - marketplace@piwik.org
