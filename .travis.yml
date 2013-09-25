@@ -21,7 +21,7 @@ install:
 - cd piwik
 - git checkout 2.0-a6
 - composer install
-- git clone https://github.com/piwik-livetab-plugin.git plugins/LiveTab
+- git clone https://github.com/tsteur/piwik-livetab-plugin.git plugins/LiveTab
 - cd plugins/LiveTab/
 - git checkout v1.0.2
 - cd ../../../
