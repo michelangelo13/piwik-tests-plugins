@@ -17,11 +17,11 @@ env:
 script: ./travis.sh
 
 before_script:
-- git clone git@github.com:piwik/piwik.git .
+- git clone git@github.com:piwik/piwik.git piwik
 - git checkout 2.0-a6
 - composer install
-- git clone git@github.com:tsteur/piwik-livetab-plugin ./plugins/LiveTab
-- cd plugins/LiveTab/
+- git clone git@github.com:tsteur/piwik-livetab-plugin piwik/plugins/LiveTab
+- cd piwik/plugins/LiveTab/
 - git checkout v1.0.2
 - cd ../..
 - uname -a
