@@ -11,7 +11,7 @@ env:
   global:
     - secure: "hQyh+ezFGj5VXn/1X/O5D8p7w883NVA9dZl1NvEuWvV1xxIldL0YPRUm5CpeaCzASropMwHa7/qpiwWLRQGkGYIrl3JsMwCWTjy6bUqaCY3IbohD9dQZgnn7E5qathqhEknjIVCPwaFFPnpRE2OD8GCWf2hsoLxlKY/KXOU00wE="
 
-script: ./travis.sh
+script: ./travis.sh > test.log
 
 install:
   - git clone https://github.com/piwik/piwik.git piwik
@@ -35,6 +35,10 @@ before_script:
   - cd tests/PHPUnit
 
 after_success:
+  - cat ./test.log
+  - cat ./piwik/tests/PHPUnit/test.log
+  - $TRAVIS_BUILD_DIR/test.log
+  - cat $TRAVIS_BUILD_DIR/piwik/tests/PHPUnit/test.log
   - curl http://plugins.piwik.org/post-tests-hook/2.0.0/Evil/1.0.1/success?secret="$API_HOOK_SECRET"
 
 after_failure:
@@ -42,8 +46,8 @@ after_failure:
 
 after_script:
   - cat /var/log/nginx/error.log
-  - cat $TRAVIS_BUILD_DIR/piwik/tmp/php-fpm.log
-  - cat $TRAVIS_BUILD_DIR/piwik/tmp/logs/logger_message.htm
+  - cat $TRAVIS_BUILD_DIR/../piwik/tmp/php-fpm.log
+  - cat $TRAVIS_BUILD_DIR/../piwik/tmp/logs/logger_message.htm
 
 notifications:
   email:
