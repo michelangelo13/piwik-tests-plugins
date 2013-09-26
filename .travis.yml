@@ -21,10 +21,7 @@ install:
   - git clone https://github.com/tsteur/piwik-livetab-plugin.git plugins/LiveTab
   - cd plugins/LiveTab/
   - git checkout v1.0.2
-  - cd ../../
-  - cp ../activateplugin.php .
-  - php activateplugin.php LiveTab
-  - cd ../
+  - cd ../../../
 
 before_script:
   - cd piwik
@@ -33,6 +30,8 @@ before_script:
   - mysql -e 'create database piwik_test;'
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
+  - cp ../activateplugin.php .
+  - php activateplugin.php LiveTab
   - cd tests/PHPUnit
 
 after_success:
