@@ -31,8 +31,8 @@ before_script:
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
   - cp ../activateplugin.php .
-  - cd ../
   - php activateplugin.php Evil
+  - cd ../
 
 after_script:
   - cat /var/log/nginx/error.log
