@@ -22,7 +22,7 @@ install:
   - composer install
   - git clone "https://github.com/$TEST_PLUGIN_REPO" "plugins/$TEST_PLUGIN_NAME"
   - cd "plugins/$TEST_PLUGIN_NAME"
-  - git checkout "TEST_PLUGIN_VERSION"
+  - git checkout "$TEST_PLUGIN_VERSION"
   - cd ../../../
 
 before_script:
