@@ -1,5 +1,14 @@
 cd piwik/tests/PHPUnit
-./travis.sh 2>&1 | tee result.log
+echo "" > result.log
+
+TEST_SUITE=PluginTests
+./travis.sh 2>&1 | tee -a result.log
+
+TEST_SUITE=CoreTests
+./travis.sh 2>&1 | tee -a result.log
+
+TEST_SUITE=IntegrationTests
+./travis.sh 2>&1 | tee -a result.log
 BREAKS_BUILD=${PIPESTATUS[0]}
 
 cat result.log | grep "an unexpected response"
