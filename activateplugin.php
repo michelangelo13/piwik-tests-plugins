@@ -27,14 +27,5 @@ if (!in_array($pluginName, $plugins)) {
     Config::getInstance()->Plugins = $section;
 }
 
-$pluginsInstalled = Config::getInstance()->PluginsInstalled['PluginsInstalled'];
-
-if (!in_array($pluginName, $pluginsInstalled)) {
-    $pluginsInstalled[] = $pluginName;
-    $section = Config::getInstance()->PluginsInstalled;
-    $section['PluginsInstalled'] = $pluginsInstalled;
-    Config::getInstance()->PluginsInstalled = $section;
-}
-
 Config::getInstance()->forceSave();
 Filesystem::deleteAllCacheOnUpdate();
