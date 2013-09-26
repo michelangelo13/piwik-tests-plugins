@@ -42,8 +42,8 @@ after_failure:
 
 after_script:
   - cat /var/log/nginx/error.log
-  - cat $TRAVIS_BUILD_DIR/../piwik/tmp/php-fpm.log
-  - cat $TRAVIS_BUILD_DIR/../piwik/tmp/logs/logger_message.htm
+  - cat $TRAVIS_BUILD_DIR/piwik/tmp/php-fpm.log
+  - cat $TRAVIS_BUILD_DIR/piwik/tmp/logs/logger_message.htm
 
 notifications:
   email:
