@@ -18,9 +18,9 @@ install:
   - cd piwik
   - git checkout 2.0-a6
   - composer install
-  - git clone https://github.com/tsteur/piwik-livetab-plugin.git plugins/LiveTab
-  - cd plugins/LiveTab/
-  - git checkout v1.0.2
+  - git clone https://github.com/tsteur/piwik-evil-plugin.git plugins/Evil
+  - cd plugins/Evil/
+  - git checkout v1.0.1
   - cd ../../../
 
 before_script:
@@ -31,14 +31,14 @@ before_script:
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
   - cp ../activateplugin.php .
-  - php activateplugin.php LiveTab
+  - php activateplugin.php Evil
   - cd tests/PHPUnit
 
 after_success:
-  - curl http://plugins.piwik.org/post-tests-hook/2.0.0/LiveTab/1.0.2/success?secret="$API_HOOK_SECRET"
+  - curl http://plugins.piwik.org/post-tests-hook/2.0.0/Evil/1.0.1/success?secret="$API_HOOK_SECRET"
 
 after_failure:
-  - curl http://plugins.piwik.org/post-tests-hook/2.0.0/LiveTab/1.0.2/failure?secret="$API_HOOK_SECRET"
+  - curl http://plugins.piwik.org/post-tests-hook/2.0.0/Evil/1.0.1/failure?secret="$API_HOOK_SECRET"
 
 after_script:
   - cat /var/log/nginx/error.log
