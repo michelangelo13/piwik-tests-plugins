@@ -10,6 +10,8 @@ php:
 env:
   matrix:
     - TEST_SUITE=CoreTests
+  global:
+    - secure: "hQyh+ezFGj5VXn/1X/O5D8p7w883NVA9dZl1NvEuWvV1xxIldL0YPRUm5CpeaCzASropMwHa7/qpiwWLRQGkGYIrl3JsMwCWTjy6bUqaCY3IbohD9dQZgnn7E5qathqhEknjIVCPwaFFPnpRE2OD8GCWf2hsoLxlKY/KXOU00wE="
 
 script: ./travis.sh
 
@@ -31,6 +33,12 @@ before_script:
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
   - cd tests/PHPUnit
+
+after_success:
+  - curl http://plugins.piwik.org/post-tests-hook/2.0.0/LiveTab/1.0.2/success?secret="$API_HOOK_SECRET"
+
+after_failure:
+  - curl http://plugins.piwik.org/post-tests-hook/2.0.0/LiveTab/1.0.2/failure?secret="$API_HOOK_SECRET"
 
 after_script:
   - cat /var/log/nginx/error.log
