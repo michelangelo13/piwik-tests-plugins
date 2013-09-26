@@ -3,8 +3,6 @@ language: php
 # We want to test against PHP 5.3/5.4/5.5
 # TODO activate plugin
 php:
-- 5.5
-- 5.4
 - 5.3
 
 env:
@@ -23,7 +21,10 @@ install:
   - git clone https://github.com/tsteur/piwik-livetab-plugin.git plugins/LiveTab
   - cd plugins/LiveTab/
   - git checkout v1.0.2
-  - cd ../../../
+  - cd ../../
+  - cp ../activateplugin.php .
+  - php activateplugin.php LiveTab
+  - cd ../
 
 before_script:
   - cd piwik
