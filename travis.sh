@@ -15,6 +15,8 @@ elif [ 0 == $BREAKS_BUILD ]; then
    exit 0;
 else
    echo "FAILURE";
-   curl "http://plugins.piwik.org/post-tests-hook/$TEST_PIWIK_VERISON/$TEST_PLUGIN_NAME/$TEST_PLUGIN_VERSION/failure?secret="$API_HOOK_SECRET"
+   curl "http://plugins.piwik.org/post-tests-hook/$TEST_PIWIK_VERISON/$TEST_PLUGIN_NAME/$TEST_PLUGIN_VERSION/failure?secret=$API_HOOK_SECRET"
    exit 1;
 fi
+
+exit 1;
