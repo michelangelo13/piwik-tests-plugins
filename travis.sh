@@ -13,7 +13,7 @@ TEST_SUITE=IntegrationTests
 ./travis.sh 2>&1 | tee -a result.log
 BREAKS_BUILD_INTEGRATION_TESTS=${PIPESTATUS[0]}
 
-cat result.log | grep "an unexpected response"
+cat result.log | grep "in /home/travis/" | grep "on line" | grep -v "Notice"
 HAS_FATAL=$?
 
 if [ 0 == $HAS_FATAL ]; then
