@@ -21,6 +21,7 @@ install:
   - cd piwik
   - git checkout "$TEST_PIWIK_VERISON"
   - composer install
+  - rm -rf "plugins/$TEST_PLUGIN_NAME"
   - git clone "https://github.com/$TEST_PLUGIN_REPO" "plugins/$TEST_PLUGIN_NAME"
   - cd "plugins/$TEST_PLUGIN_NAME"
   - git checkout "$TEST_PLUGIN_TAGNAME"
