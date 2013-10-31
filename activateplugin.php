@@ -13,7 +13,6 @@ define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
 
 require_once PIWIK_DOCUMENT_ROOT . '/vendor/autoload.php';
 require_once PIWIK_DOCUMENT_ROOT . '/core/Loader.php';
-require_once PIWIK_DOCUMENT_ROOT . '/core/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 use \Piwik\Config;
