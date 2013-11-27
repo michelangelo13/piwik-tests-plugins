@@ -10,7 +10,7 @@ env:
     - TEST_PLUGIN_NAME=Evil
     - TEST_PLUGIN_REPO="tsteur/piwik-evil-plugin.git"
     - TEST_PLUGIN_VERSION=1.0.4
-    - TEST_PIWIK_VERISON=2.0-a6
+    - TEST_PIWIK_VERISON=2.0-a9
     - secure: "hQyh+ezFGj5VXn/1X/O5D8p7w883NVA9dZl1NvEuWvV1xxIldL0YPRUm5CpeaCzASropMwHa7/qpiwWLRQGkGYIrl3JsMwCWTjy6bUqaCY3IbohD9dQZgnn7E5qathqhEknjIVCPwaFFPnpRE2OD8GCWf2hsoLxlKY/KXOU00wE="
 
 script: ./travis.sh
@@ -30,6 +30,7 @@ before_script:
   - cd piwik
   - uname -a
   - date
+  - php -r "var_dump(gd_info());"
   - mysql -e 'create database piwik_test;'
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
@@ -39,8 +40,8 @@ before_script:
 
 after_script:
   - cat /var/log/nginx/error.log
-  - cat $TRAVIS_BUILD_DIR/../piwik/tmp/php-fpm.log
-  - cat $TRAVIS_BUILD_DIR/../piwik/tmp/logs/logger_message.htm
+  - cat $TRAVIS_BUILD_DIR/piwik/tmp/php-fpm.log
+  - cat $TRAVIS_BUILD_DIR/piwik/tmp/logs/logger_message.htm
 
 notifications:
   email:
