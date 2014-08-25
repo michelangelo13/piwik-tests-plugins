@@ -7,11 +7,11 @@ env:
   matrix:
     - TEST_SUITE=CoreTests MYSQL_ADAPTER=PDO_MYSQL
   global:
-    - TEST_PLUGIN_NAME=LoginLdap
-    - TEST_PLUGIN_REPO="tehnotronic/PiwikLdap.git"
-    - TEST_PLUGIN_VERSION=2.0.0
-    - TEST_PIWIK_VERISON=2.0.2
-    - TEST_PLUGIN_TAGNAME=2.0.1
+    - TEST_PLUGIN_NAME=LdapVisitorInfo
+    - TEST_PLUGIN_REPO="ThaDafinser/LdapVisitorInfo.git"
+    - TEST_PLUGIN_VERSION=0.2.0
+    - TEST_PIWIK_VERISON=2.5.0
+    - TEST_PLUGIN_TAGNAME=0.2.0
     - secure: "hQyh+ezFGj5VXn/1X/O5D8p7w883NVA9dZl1NvEuWvV1xxIldL0YPRUm5CpeaCzASropMwHa7/qpiwWLRQGkGYIrl3JsMwCWTjy6bUqaCY3IbohD9dQZgnn7E5qathqhEknjIVCPwaFFPnpRE2OD8GCWf2hsoLxlKY/KXOU00wE="
 
 script: ./travis.sh
