@@ -5,7 +5,8 @@ php:
 
 env:
   matrix:
-    - TEST_SUITE=CoreTests MYSQL_ADAPTER=PDO_MYSQL
+    - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
+    - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
   global:
     - TEST_PLUGIN_NAME=Evil
     - TEST_PLUGIN_REPO="tsteur/piwik-evil-plugin.git"
