@@ -1,6 +1,9 @@
 cd piwik/tests/PHPUnit
 echo "" > result.log
 
+# don't want to run the 3rd party plugin's tests, just core tests & core plugin tests
+export PHPUNIT_EXTRA_OPTIONS="--exclude-group \"$TEST_PLUGIN_NAME\""
+
 export TEST_SUITE=UnitTests
 ./travis.sh 2>&1 | tee -a result.log
 BREAKS_BUILD_UNIT_TESTS=${PIPESTATUS[0]}
