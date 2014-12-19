@@ -17,7 +17,6 @@ env:
     - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
   global:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
-    - PLUGIN_NAME=LoginLdap
     - TEST_PLUGIN_NAME=LoginLdap
     - TEST_PLUGIN_REPO="piwik/plugin-LoginLdap.git"
     - TEST_PLUGIN_VERSION=3.1.0
