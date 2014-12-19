@@ -2,7 +2,7 @@ cd piwik/tests/PHPUnit
 echo "" > result.log
 
 # don't want to run the 3rd party plugin's tests, just core tests & core plugin tests
-export PHPUNIT_EXTRA_OPTIONS="--exclude-group \"$TEST_PLUGIN_NAME\""
+rm -r ../../plugins/$TEST_PLUGIN_NAME/tests ../../plugins/$TEST_PLUGIN_NAME/Test
 
 cat ../travis/travis.sh
 
