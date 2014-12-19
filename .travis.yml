@@ -1,51 +1,154 @@
 language: php
 
 php:
-- 5.3
+  - 5.6
+  - 5.3.3
+#  - hhvm
 
+services:
+  - redis-server
+
+# Separate different test suites
 env:
   matrix:
-    - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
+    # PDO Mysql
+    - TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
+    - TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
+    - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
   global:
+    - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
     - TEST_PLUGIN_NAME=Evil
     - TEST_PLUGIN_REPO="tsteur/piwik-evil-plugin.git"
     - TEST_PLUGIN_VERSION=1.0.4
-    - TEST_PIWIK_VERISON=2.0-a9
     - secure: "hQyh+ezFGj5VXn/1X/O5D8p7w883NVA9dZl1NvEuWvV1xxIldL0YPRUm5CpeaCzASropMwHa7/qpiwWLRQGkGYIrl3JsMwCWTjy6bUqaCY3IbohD9dQZgnn7E5qathqhEknjIVCPwaFFPnpRE2OD8GCWf2hsoLxlKY/KXOU00wE="
 
-script: ./travis.sh
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: hhvm
+    - php: 5.6
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Integration
+    - php: 5.6
+      env: MYSQL_ADAPTER=PDO_MYSQL COVERAGE=Unit
+  exclude:
+    # Run test suites separately only on PHP 5.4 with PDO
+    - php: 5.3.3
+      env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: 5.3.3
+      env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: 5.3.3
+      env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: hhvm
+      env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: hhvm
+      env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
+    - php: hhvm
+      env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
+
+script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
+
+before_install:
+  # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
+  - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
 
 install:
   - git clone https://github.com/piwik/piwik.git piwik
   - cd piwik
-  - git checkout "$TEST_PIWIK_VERISON"
+
+  - git fetch --all
+  - | 
+    if [ "$TEST_AGAINST_PIWIK_BRANCH" == "" ]; then
+        if [ "$TEST_AGAINST_CORE" == "latest_stable" ]; then
+            export TEST_AGAINST_PIWIK_BRANCH=$(git describe --tags `git rev-list --tags --max-count=1`)
+            export TEST_AGAINST_PIWIK_BRANCH=`echo $TEST_AGAINST_PIWIK_BRANCH | tr -d ' ' | tr -d '\n'`
+        else
+            export TEST_AGAINST_PIWIK_BRANCH=master
+        fi
+    fi
+  - echo "Testing against '$TEST_AGAINST_PIWIK_BRANCH'"
+  - git checkout "$TEST_AGAINST_PIWIK_BRANCH"
   - git submodule init
-  - git submodule update
-  - composer install
+  - git submodule update || true
+
   - rm -rf "plugins/$TEST_PLUGIN_NAME"
   - git clone "https://github.com/$TEST_PLUGIN_REPO" "plugins/$TEST_PLUGIN_NAME"
+
   - cd "plugins/$TEST_PLUGIN_NAME"
   - git checkout "$TEST_PLUGIN_VERSION"
-  - cd ../../../
+  - cd ../..
+
+  # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
+  - git checkout master -- ./tests/travis ./plugins/TestRunner || true
 
 before_script:
-  - cd piwik
+  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
+    then composer require satooshi/php-coveralls dev-master;
+    else
+    phpenv config-rm xdebug.ini;
+    fi
+
+  # add always_populate_raw_post_data=-1 to php.ini
+  - echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  - ./tests/travis/configure_git.sh
+
+  # print out mysql information
+  - mysql --version
+  - mysql -e "SELECT VERSION();"
+
+  # configure mysql
+  - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'" # Travis default
+
+  - mysql -e "SELECT @@sql_mode;"
+  - mysql -e "SHOW GLOBAL VARIABLES;"
+
+  # Start UI tests
+  - ./tests/travis/initiate_ui_tests.sh
+  # travis now complains about this failing 9 times out of 10, so removing it. hopefully the random failures it prevented won't come back
+  # - travis_retry composer self-update
+
+  - travis_retry composer install
+
+  # print out more debugging info
   - uname -a
   - date
   - php -r "var_dump(gd_info());"
   - mysql -e 'create database piwik_tests;'
+
+  # Make sure we use Python 2.6
+  - travis_retry sudo add-apt-repository ppa:fkrull/deadsnakes -y
+  - travis_retry sudo apt-get update
+  - travis_retry sudo apt-get install python2.6 python2.6-dev -y --force-yes
+
+  # Log Analytics works with Python 2.6 or 2.7 but we want to test on 2.6
+  - python2.6 --version
+  - python --version
+
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
-  - cp ../activateplugin.php .
-  - php activateplugin.php $TEST_PLUGIN_NAME
-  - cd ../
+
+  # - export GENERATE_TRAVIS_YML_COMMAND="php ./console generate:travis-yml --core"
+  # - ./tests/travis/autoupdate_travis_yml.sh
+
+  - cd tests/PHPUnit
 
 after_script:
-  - cat /var/log/nginx/error.log
-  - cat $TRAVIS_BUILD_DIR/piwik/tmp/php-fpm.log
-  - cat $TRAVIS_BUILD_DIR/piwik/tmp/logs/logger_message.htm
+  # change directory back to root travis dir
+  - cd $PIWIK_ROOT_DIR
 
-notifications:
-  email:
-    - marketplace@piwik.org
+  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
+    then php vendor/bin/coveralls -v;
+    fi
+
+  # output contents of files w/ debugging info to screen
+  - cat /var/log/nginx/error.log
+  - cat $PIWIK_ROOT_DIR/tmp/php-fpm.log
+  - cat $PIWIK_ROOT_DIR/tmp/logs/piwik.log
+  - cat $PIWIK_ROOT_DIR/config/config.ini.php
+
+  # upload test artifacts (for debugging travis failures)
+  - ./tests/travis/upload_artifacts.sh
+
+after_success:
+  - cd $PIWIK_ROOT_DIR
+  - ./tests/travis/generate_docs.sh
