@@ -80,7 +80,7 @@ install:
   - cd ../..
 
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
-  - git checkout master -- ./tests/travis ./plugins/TestRunner || true
+  - git checkout master -- ./tests/travis ./tests/PHPUnit/travis.sh ./plugins/TestRunner || true
 
   # add plugin to global.ini.php so it will be loaded during normal Piwik tests
   - sed -i "s/\\[PluginsInstalled\\]/Plugins[] = $TEST_PLUGIN_NAME\\n\\n[PluginsInstalled]/g" config/global.ini.php
