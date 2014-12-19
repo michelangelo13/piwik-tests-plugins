@@ -82,6 +82,10 @@ install:
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
   - git checkout master -- ./tests/travis ./plugins/TestRunner || true
 
+  # add plugin to global.ini.php so it will be loaded during normal Piwik tests
+  - sed i- 's/\[PluginsInstalled\]/Plugins[] = ABC\n\n[PluginsInstalled]/g' config/global.ini.php
+  - cat config/global.ini.php
+
 before_script:
   - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then composer require satooshi/php-coveralls dev-master;
