@@ -83,7 +83,7 @@ install:
   - git checkout master -- ./tests/travis ./plugins/TestRunner || true
 
   # add plugin to global.ini.php so it will be loaded during normal Piwik tests
-  - sed -i 's/\[PluginsInstalled\]/Plugins[] = $TEST_PLUGIN_NAME\n\n[PluginsInstalled]/g' config/global.ini.php
+  - sed -i "s/\\[PluginsInstalled\\]/Plugins[] = $TEST_PLUGIN_NAME\\n\\n[PluginsInstalled]/g" config/global.ini.php
   - cat config/global.ini.php
 
 before_script:
