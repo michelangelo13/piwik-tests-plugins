@@ -8,11 +8,11 @@ env:
     - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
   global:
-    - TEST_PLUGIN_NAME=LiveTab
-    - TEST_PLUGIN_REPO="tsteur/piwik-livetab-plugin.git"
-    - TEST_PLUGIN_VERSION=1.0.8
+    - TEST_PLUGIN_NAME=CustomAlerts
+    - TEST_PLUGIN_REPO="piwik/plugin-CustomAlerts.git"
+    - TEST_PLUGIN_VERSION=0.1.4
     - TEST_PIWIK_VERISON=2.10.0-rc1
-    - TEST_PLUGIN_TAGNAME=1.0.8
+    - TEST_PLUGIN_TAGNAME=0.1.4
     - secure: "hQyh+ezFGj5VXn/1X/O5D8p7w883NVA9dZl1NvEuWvV1xxIldL0YPRUm5CpeaCzASropMwHa7/qpiwWLRQGkGYIrl3JsMwCWTjy6bUqaCY3IbohD9dQZgnn7E5qathqhEknjIVCPwaFFPnpRE2OD8GCWf2hsoLxlKY/KXOU00wE="
 
 script: ./travis.sh
