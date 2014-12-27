@@ -139,8 +139,7 @@ before_script:
   - cd ..
 
   # override config log level to be ERROR so spurious logs in initialization of the plugin to test do not break the tests
-  - sed "s/log_level = [[:alpha:]\"]+/log_level = error/g" $PIWIK_ROOT_DIR/config/config.ini.php
-  - cat $PIWIK_ROOT_DIR/config/config.ini.php
+  - sed -i "s/log_level = [[:alpha:]\"]\+/log_level = error/g" $PIWIK_ROOT_DIR/config/config.ini.php
 
 after_script:
   # change directory back to root travis dir
