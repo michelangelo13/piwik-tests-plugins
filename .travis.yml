@@ -17,6 +17,7 @@ env:
     - MYSQL_ADAPTER=PDO_MYSQL 
   global:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
+    - REPO_ROOT_DIR=$TRAVIS_BUILD_DIR
     - TEST_PLUGIN_NAME=LoginLdap
     - TEST_PLUGIN_REPO="piwik/plugin-LoginLdap.git"
     - TEST_PLUGIN_VERSION=3.1.0
