@@ -1,16 +1,19 @@
 cd piwik/tests/PHPUnit
 echo "" > result.log
 
+# don't want to run the 3rd party plugin's tests, just core tests & core plugin tests
+rm -r ../../plugins/$TEST_PLUGIN_NAME/tests ../../plugins/$TEST_PLUGIN_NAME/Test
+
 export TEST_SUITE=UnitTests
-./travis.sh 2>&1 | tee -a result.log
+../travis/travis.sh 2>&1 | tee -a result.log
 BREAKS_BUILD_UNIT_TESTS=${PIPESTATUS[0]}
 
 export TEST_SUITE=IntegrationTests
-./travis.sh 2>&1 | tee -a result.log
+../travis/travis.sh 2>&1 | tee -a result.log
 BREAKS_BUILD_INTEGRATION_TESTS=${PIPESTATUS[0]}
 
 export TEST_SUITE=SystemTests
-./travis.sh 2>&1 | tee -a result.log
+../travis/travis.sh 2>&1 | tee -a result.log
 BREAKS_BUILD_SYSTEM_TESTS=${PIPESTATUS[0]}
 
 cat result.log | grep "in /home/travis/" | grep "on line" | grep -v "Notice"

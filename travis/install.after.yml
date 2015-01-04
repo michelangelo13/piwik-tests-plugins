@@ -1,0 +1,10 @@
+  - rm -rf "plugins/$TEST_PLUGIN_NAME"
+  - git clone "https://github.com/$TEST_PLUGIN_REPO" "plugins/$TEST_PLUGIN_NAME"
+
+  - cd "plugins/$TEST_PLUGIN_NAME"
+  - git checkout "$TEST_PLUGIN_VERSION"
+  - cd ../..
+
+  # add plugin to global.ini.php so it will be loaded during normal Piwik tests
+  - sed -i "s/\\[PluginsInstalled\\]/Plugins[] = $TEST_PLUGIN_NAME\\n\\n[PluginsInstalled]/g" config/global.ini.php
+  - cat config/global.ini.php
