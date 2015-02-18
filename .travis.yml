@@ -8,11 +8,11 @@ env:
     - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
   global:
-    - TEST_PLUGIN_NAME=LoginLdap
-    - TEST_PLUGIN_REPO="piwik/plugin-LoginLdap.git"
-    - TEST_PLUGIN_VERSION=3.1.1
-    - TEST_PIWIK_VERISON=2.10.0-rc4
-    - TEST_PLUGIN_TAGNAME=3.1.1
+    - TEST_PLUGIN_NAME=Bandwidth
+    - TEST_PLUGIN_REPO="piwik/plugin-Bandwidth.git"
+    - TEST_PLUGIN_VERSION=0.1.0
+    - TEST_PIWIK_VERISON=2.11.0-rc1
+    - TEST_PLUGIN_TAGNAME=0.1.0
     - secure: "hQyh+ezFGj5VXn/1X/O5D8p7w883NVA9dZl1NvEuWvV1xxIldL0YPRUm5CpeaCzASropMwHa7/qpiwWLRQGkGYIrl3JsMwCWTjy6bUqaCY3IbohD9dQZgnn7E5qathqhEknjIVCPwaFFPnpRE2OD8GCWf2hsoLxlKY/KXOU00wE="
 
 script: ./travis.sh
