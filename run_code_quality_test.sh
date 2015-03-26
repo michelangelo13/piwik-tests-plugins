@@ -17,5 +17,8 @@ composer install &> /dev/null
 # setup phpstorm
 travis_wait php ./main.php inspections:setup-phpstorm --piwik-path="$PIWIK_ROOT_DIR" --phpstorm-output-path="./phpstorm" --phpstorm-license-file="$TRAVIS_BUILD_DIR/phpstorm.key"
 
+echo "DEBUG:"
+cat ./phpstorm/bin/phpstorm64.vmoptions
+
 # run inspections
 travis_wait php ./main.php inspections:run --piwik-path="$PIWIK_ROOT_DIR" --phpstorm-path="./phpstorm" "$TEST_PLUGIN_NAME" --artifacts-pass="$ARTIFACTS_PASS" --upload-artifacts="$TRAVIS_JOB_NUMBER"
