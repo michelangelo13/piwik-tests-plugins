@@ -4,11 +4,12 @@
 source "$PIWIK_ROOT_DIR/tests/travis/travis-helper.sh"
 
 # get piwikstorm source code for the runner app
-git clone -q https://github.com/piwik/phpstorm-plugin-piwikstorm.git piwikstorm --depth=1 > /dev/null
-git fetch --tags
+git clone -q https://github.com/piwik/phpstorm-plugin-piwikstorm.git piwikstorm > /dev/null
 
 # setup runner app
 cd piwikstorm/misc/runner
+git fetch --tags
+
 composer install &> /dev/null
 
 # TODO: should use unprotected artifacts if .travis.yml of plugin contains UNPROTECTED_ARTIFACTS=1
