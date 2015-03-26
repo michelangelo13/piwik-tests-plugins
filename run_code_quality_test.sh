@@ -5,6 +5,7 @@ source "$PIWIK_ROOT_DIR/tests/travis/travis-helper.sh"
 
 # get piwikstorm source code for the runner app
 git clone -q https://github.com/piwik/phpstorm-plugin-piwikstorm.git piwikstorm --depth=1 > /dev/null
+git fetch --tags
 
 # setup runner app
 cd piwikstorm/misc/runner
