@@ -1,0 +1,1 @@
+  - openssl aes-256-cbc -K $encrypted_af56965bbe96_key -iv $encrypted_af56965bbe96_iv -in phpstorm.key.enc -out phpstorm.key -d
